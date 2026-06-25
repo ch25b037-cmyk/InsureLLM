@@ -98,11 +98,11 @@ Query pipeline (answer.py)
 
 ```bash
 # Clone and enter the repo
-git clone <your-repo-url>
-cd <your-repo-name>
+git clone https://github.com/ch25b037-cmyk/InsureLLM.git
+cd InsureLLM
 
 # Install dependencies (adjust to your tool of choice)
-pip install gradio pandas python-dotenv chromadb litellm pydantic tenacity tqdm openai
+uv sync
 
 # Make sure Ollama is running
 ollama serve &
@@ -117,25 +117,25 @@ touch .env
 
 **1. Ingest the knowledge base** (run once, or whenever source docs change):
 ```bash
-python pro_implementation/ingest.py
+uv run pro_implementation/ingest.py
 ```
 This chunks every `.md` file under `knowledge-base/` using an LLM, embeds the chunks, and writes them into `preprocessed_db/`.
 
 **2. Chat with the assistant:**
 ```bash
-python app.py
+uv run app.py
 ```
 Opens a Gradio chat window with retrieved context shown alongside each answer.
 
 **3. Run a single evaluation from the CLI:**
 ```bash
-python evaluation/eval.py <test_row_number>
+uv run evaluation/eval.py <test_row_number>
 ```
 Prints retrieval metrics and an LLM-judged answer score for one test case.
 
 **4. Run the full evaluation dashboard:**
 ```bash
-python evaluator.py
+uv run evaluator.py
 ```
 Runs all 150 retrieval and answer evaluations, with progress bars, color-coded summary metrics, and per-category bar charts.
 
