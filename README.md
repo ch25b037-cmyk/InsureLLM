@@ -2,13 +2,13 @@
 
 A fully local, Retrieval-Augmented Generation (RAG) system that answers natural-language questions about a fictional insurance company ("Insurellm") using its internal knowledge base. Built around Ollama for local inference/embeddings and ChromaDB for vector storage, with an LLM-driven ingestion pipeline and a two-pronged evaluation harness (retrieval metrics + LLM-as-judge).
 
-## Why this exists
+## Why this version?
 
-Most toy RAG demos split documents with a fixed-size text splitter and call it done. This project pushes a bit further on both ends of the pipeline:
+Most  RAG demos split documents with a fixed-size text splitter and call it done. This version pushes a bit further on both ends of the pipeline:
 
-- **Ingestion** uses an LLM to *semantically* chunk each document (headline + summary + original text) rather than blindly cutting on character count.
+- **Ingestion** uses an LLM to *semantically* chunk each document (headline + summary + original text) rather than blindly cutting on character count (which was done previously).
 - **Retrieval** rewrites the user's question, retrieves with both the original and rewritten query, merges the candidates, and asks an LLM to rerank them before truncating to the final top-k.
-- **Evaluation** doesn't just eyeball answers — it computes retrieval-quality metrics (MRR, nDCG, keyword coverage) against a 150-question labeled test set, *and* runs an LLM judge to score generated answers on accuracy, completeness, and relevance.
+- **Evaluation** doesn't just eyeball answers — it computes retrieval-quality metrics (MRR, nDCG, keyword coverage) against a 150-question labeled test set, *and* runs an LLM judge to score generated answers on accuracy, completeness, and relevance. (same for both versions)
 
 ## Architecture
 
@@ -164,4 +164,5 @@ Key tunables, all near the top of `pro_implementation/answer.py`:
 | `FINAL_K` | 10 | Chunks kept after LLM reranking |
 
 
-
+## Version 1
+This contains a simple implementation which contains basic text retrieval where the documents get stored as vector embeddings. The evaluation pattern is the same for both the versions. Here there is no re-ranking implemented, no query re-writing implemented. I have used the langchain framework for doing text splitting which was improved to semantic chunking later on.
